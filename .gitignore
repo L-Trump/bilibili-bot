@@ -1,0 +1,8 @@
+/dist
+/.idea
+test*.*
+**/__pycache__
+/bilibili_api.egg-info
+/design
+/config.json
+/logs
