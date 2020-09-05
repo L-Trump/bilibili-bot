@@ -1,7 +1,8 @@
 import logging
-import os.path
 import time
 import json
+import importlib
+from pathlib import Path
 from bilibili_api import Verify
 
 def newLogger(loggerName: str, debug: bool = False, file: bool = True):
@@ -13,12 +14,11 @@ def newLogger(loggerName: str, debug: bool = False, file: bool = True):
     logger.addHandler(ConsoleHandler)
     if file:
         rq = time.strftime('%Y%m%d-%H-%M-%S', time.localtime(time.time()))
-        log_path = os.path.join(os.path.dirname((os.path.dirname(os.path.abspath(__file__)))), f'logs/{loggerName}/')
-        if not os.path.exists(log_path):
-            os.makedirs(log_path)
-        logfile = log_path + rq + '.log'
-        mode = 'a+' if os.path.exists(logfile) else 'w+'
-        FileHandler = logging.FileHandler(logfile, mode=mode, encoding="utf-8")
+        log_path = getRunningPath(False).joinpath('logs', loggerName)
+        checkPath(log_path)
+        logfile = log_path / f"{rq}.log"
+        mode = 'a+' if logfile.exists else 'w+'
+        FileHandler = logging.FileHandler(str(logfile), mode=mode, encoding="utf-8")
         FileHandler.setFormatter(formatter)
         logger.addHandler(FileHandler)
     return logger
@@ -29,8 +29,11 @@ def getLogger(loggerName: str, debug: bool = False, file: bool = True):
         return logger
     return newLogger(loggerName, debug = debug, file = file)
 
-def getRunningPath():
-    return os.path.dirname((os.path.dirname(os.path.abspath(__file__))))
+def getRunningPath(return_string: bool = True):
+    if return_string:
+        return str(Path(__file__).resolve().parent.parent)
+    else:
+        return Path(__file__).resolve().parent.parent
 
 def getApi():
     with open(getRunningPath() + "/utils/data/api.json", "r", encoding="utf-8") as f:
@@ -38,25 +41,36 @@ def getApi():
         f.close()
     return apis
 
-def loadConfig(logger = getLogger('bot'), cfgPath: str = getRunningPath() + '/config.json'):
+def checkPath(path = None, Dir: str = None, create: bool = True):
+    path = path.resolve()
+    if path.exists(): return True
+    if create:
+        path.mkdir(parents=True)
+        return True
+    else:
+        return False
+
+def loadConfig(cfgPath: str = str(getRunningPath(False) / 'config' / 'bot.json'), logger = getLogger('bot')):
     config = {}
     logger.debug('加载配置文件...')
-    
-    if os.path.exists(cfgPath):
-        with open(cfgPath, 'r', encoding='utf-8') as f:
+    path = Path(cfgPath)
+    checkPath(path.parent)
+    if path.exists:
+        with open(path, 'r', encoding='utf-8') as f:
             config = json.load(f)
         logger.debug('配置加载成功')
     else:
-        with open(cfgPath, 'w', encoding='utf-8') as f:
+        with open(path, 'w', encoding='utf-8') as f:
             f.write('{}')
         logger.debug('配置文件不存在，已自动创建')
     return config
         
-def saveConfig(config={}, logger = getLogger('bot'), cfgPath: str = getRunningPath() + '/config.json'):
+def saveConfig(config={}, cfgPath: str = str(getRunningPath(False) / 'config' / 'bot.json'), logger = getLogger('bot')):
     logger.debug('保存配置文件...')
-    cfgPath = getRunningPath() + '/config.json'
-    with open(cfgPath, 'w', encoding='utf-8') as f:
-        json.dump(config, f, indent = 4)
+    path = Path(cfgPath)
+    checkPath(path.parent)
+    with open(path, 'w', encoding='utf-8') as f:
+        json.dump(config, f, indent = 4, ensure_ascii = False)
     logger.debug('保存成功')
 
 def getVerify(logger = getLogger('bot')):
@@ -77,9 +91,10 @@ def getVerify(logger = getLogger('bot')):
 def loginBilibili(logger = getLogger('bot')):
     config = loadConfig(logger=logger)
     logger.info('账号登录中...')
+    importlib.import_module('utils.bililogin')
     verify = bililogin.login_QR()
     config['account'] = {}
     config['account']['sessdata'] = verify.sessdata
     config['account']['bili_jct'] = verify.csrf
-    common.saveConfig(config, logger)
+    saveConfig(config = config, logger = logger)
     return verify

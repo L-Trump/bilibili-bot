@@ -1,0 +1,12 @@
+{
+	"disable": false,
+	"rooms":[
+		{
+			"room": 21672023,
+			"plugins": [
+				"gift",
+				"debug"
+			]
+		}
+	]
+}

@@ -2,7 +2,8 @@
 /.idea
 test*.*
 **/__pycache__
-/bilibili_api.egg-info
+/*.egg-info
 /design
-/config.json
+/config/bot.json
 /logs
+/debug

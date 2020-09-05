@@ -13,9 +13,13 @@
 
 - [x] 模块化插件，便于自定义及开发
 - [x] 多直播间监控
-- [ ] 直播间谢礼物、SC等
+- [x] 直播间谢礼物、SC、舰长等
 - [ ] 直播间弹幕消息获取、自动回复
 - [ ] 直播间开播提醒
 
 ## To Be Continue
 
+# 引用的项目
+
+- [bilibili_api](https://github.com/Passkou/bilibili_api)
+- cachetools
