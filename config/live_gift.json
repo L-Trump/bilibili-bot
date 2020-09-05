@@ -1,0 +1,21 @@
+{
+    "global": {
+		"gift": {
+			"disable": false,
+			"silver": false,
+			"min_silver_coin": 0,
+			"gold": true,
+			"min_gold_coin": 20000,
+			"str": "感谢{uname}{action}的{num}个{giftName}"
+		},
+		"guard": {
+			"disable": false,
+			"str": "感谢{username}老板的{gift_name}"
+		},
+		"sc": {
+			"disable": false,
+			"min_price": 30,
+			"str": "感谢{user_info[uname]}老板的SC"
+		}
+    }
+}

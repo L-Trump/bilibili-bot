@@ -9,8 +9,10 @@ config = common.loadConfig(logger = logger)
 def main():
     verify = common.getVerify()
     print(f"SESSDATA: {verify.sessdata} CSRF:{verify.csrf}")
+    loop = asyncio.get_event_loop()
     try:
-        asyncio.run(modules.load_modules())
+        task = loop.create_task(modules.load_modules())
+        loop.run_until_complete(task)
     except:
         raise
 
