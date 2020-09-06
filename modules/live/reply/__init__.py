@@ -10,12 +10,16 @@ cfgPath = common.getRunningPath(False) / 'config' / 'live_reply.json'
 config = common.loadConfig(cfgPath, logger)
 conf = {}
 verify = common.getVerify()
+bot_uid = user.get_self_info(verify = verify).get('mid')
 msgQueue = asyncio.Queue(maxsize = 128)
 
 @modules.live.receiver('reply', 'DANMU_MSG')
 async def on_danmu(msg):
     rid = msg['room_display_id']
     info = msg['data']['info']
+    if info[2][0] == bot_uid:
+        logger.debug('检测到自己的消息，已忽略')
+        return
     text = info[1]
     logger.debug(f'收到{rid}房间的弹幕——{text}')
     rule = Filter(rid, text)
