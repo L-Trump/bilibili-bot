@@ -1,14 +1,12 @@
-import json, os, time, asyncio, logging
-from bilibili_api import live, user, Verify
-from utils import bililogin, common
+import asyncio
+from utils import common
 import modules
 
 logger = common.getLogger('bot')
 config = common.loadConfig(logger = logger)
 
 def main():
-    verify = common.getVerify()
-    print(f"SESSDATA: {verify.sessdata} CSRF:{verify.csrf}")
+    logger.info('机器人启动')
     loop = asyncio.get_event_loop()
     try:
         task = loop.create_task(modules.load_modules())

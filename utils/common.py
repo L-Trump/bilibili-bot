@@ -50,9 +50,10 @@ def checkPath(path = None, Dir: str = None, create: bool = True):
     else:
         return False
 
-def loadConfig(cfgPath: str = str(getRunningPath(False) / 'config' / 'bot.json'), logger = getLogger('bot')):
+def loadConfig(cfgPath = str(getRunningPath(False) / 'config' / 'bot.json'), logger = getLogger('bot')):
     config = {}
     logger.debug('加载配置文件...')
+    cfgPath = str(cfgPath)
     path = Path(cfgPath)
     checkPath(path.parent)
     if path.exists:
@@ -65,8 +66,9 @@ def loadConfig(cfgPath: str = str(getRunningPath(False) / 'config' / 'bot.json')
         logger.debug('配置文件不存在，已自动创建')
     return config
         
-def saveConfig(config={}, cfgPath: str = str(getRunningPath(False) / 'config' / 'bot.json'), logger = getLogger('bot')):
+def saveConfig(config={}, cfgPath = str(getRunningPath(False) / 'config' / 'bot.json'), logger = getLogger('bot')):
     logger.debug('保存配置文件...')
+    cfgPath = str(cfgPath)
     path = Path(cfgPath)
     checkPath(path.parent)
     with open(path, 'w', encoding='utf-8') as f:

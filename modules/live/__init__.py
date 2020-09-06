@@ -1,16 +1,13 @@
 import asyncio, importlib, functools
 from utils import common, exceptions
 from pathlib import Path
-from bilibili_api import live, Verify
+from bilibili_api import live
 
 cfgPath = str(Path(common.getRunningPath()).resolve()/'config'/'live.json')
 logger = common.getLogger('live')
 config = common.loadConfig(logger = logger, cfgPath = cfgPath)
 rooms = {}
 receivers = {}
-verify = None
-# if config['needVerify']:
-    # pass
 
 async def main():
     global receivers
@@ -27,12 +24,13 @@ async def main():
         rid = room['room']
         if room.get('disable', False):
             logger.debug(f"直播间{rid}被禁用，已跳过")
+            continue
         logger.info(f'开启直播间{rid}')
         plugins = room.get('plugins', [])
         if not plugins:
             logger.warning(f'直播间{rid}未配置插件，已跳过')
             continue
-        rooms[rid] = live.LiveDanmaku(rid, verify = verify)
+        rooms[rid] = live.LiveDanmaku(rid)
         for plugin in plugins:
             if plugin in receivers:
                 logger.debug(f'加载插件{plugin}')
@@ -63,6 +61,7 @@ def load_plugins():
         logger.info('插件导入完成')
 
 async def checkConnect():
+    global rooms
     try_times = {}
     check_interval = config.get('check_interval', 10)
     reconnect_times = config.get('reconnect_times', 3)

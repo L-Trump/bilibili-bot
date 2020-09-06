@@ -1,12 +1,23 @@
 {
-	"disable": false,
-	"rooms":[
-		{
-			"room": 21672023,
-			"plugins": [
-				"gift",
-				"debug"
-			]
-		}
-	]
+    "disable": false,
+    "check_interval": 10,
+    "reconnect_times": 3,
+    "rooms":[
+        {
+            "room": 21672023,
+            "disable": false,
+            "plugins": [
+                "gift",
+                "debug"
+            ]
+        },
+        {
+            "room": 22111450,
+            "plugins": ["gift"]
+        },
+        {
+            "room": 21564812,
+            "plugins": ["reply"]
+        }
+    ]
 }
