@@ -15,8 +15,17 @@
     "21564812": {
         "rules": [
             {
+                "disable": true,
                 "regex": "([\\S\\s]*)",
                 "reply": "{regex[0]}"
+            }
+        ]
+    },
+    "21672023": {
+        "rules": [
+            {
+                "regex": "(\\\\[\\S]+?/)[\\s\\S]*",
+                "reply": "{regex[0]}{regex[0]}{regex[0]}"
             }
         ]
     }

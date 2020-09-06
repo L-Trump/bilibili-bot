@@ -97,5 +97,9 @@ def sendMsg(rid, msg):
     upinfo = cache(user.get_user_info, cache(live.get_room_play_info, rid, verify=None).get('uid'))
     upname = upinfo.get('name')
     danmu = Danmaku(text = str(msg), mode = 1)
-    live.send_danmaku(rid, danmaku = danmu, verify = verify)
-    logger.info(f'{upname}的直播间--' + msg + '--已发送')
+    try:
+        live.send_danmaku(rid, danmaku = danmu, verify = verify)
+    except exceptions.BilibiliException as e:
+        logger.error(f'{upname}的直播间--' + msg + f'--{str(e)}')
+    else:
+        logger.info(f'{upname}的直播间--' + msg + '--已发送')
