@@ -1,4 +1,3 @@
-import asyncio, json
 import modules
 from pathlib import Path
 from utils import common, exceptions
@@ -65,8 +64,8 @@ def formatConf():
 
 def getConf(rid, module, cfg):
     rid = str(rid)
-    if rid in config.get('room_specific', {}) and module in config['room_specific'][rid] and cfg in config['room_specific'][rid][module]:
-        return config['room_specific'][rid][module][cfg]
+    if module in config.get(rid, {}) and cfg in config[rid][module]:
+        return config[rid][module][cfg]
     if module in config.get('global', {}) and cfg in config['global'][module]:
         return config['global'][module][cfg]
     return DEFAULT_CONFIG.get(module, {}).get(cfg, None)

@@ -1,0 +1,23 @@
+{
+    "global": {
+        "disable": false,
+        "rules": [
+            {
+                "disable": true,
+                "regex": "",
+                "contain": "",
+                "startwith": "",
+                "endwith":"",
+                "reply": ""
+            }
+        ]
+    },
+    "21564812": {
+        "rules": [
+            {
+                "regex": "([\\S\\s]*)",
+                "reply": "{regex[0]}"
+            }
+        ]
+    }
+}
