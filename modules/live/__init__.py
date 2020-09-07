@@ -21,25 +21,30 @@ async def main():
         return
     load_plugins()
     for room in config['rooms']:
-        rid = room['room']
-        if room.get('disable', False):
-            logger.debug(f"直播间{rid}被禁用，已跳过")
-            continue
-        logger.info(f'开启直播间{rid}')
-        plugins = room.get('plugins', [])
-        if not plugins:
-            logger.warning(f'直播间{rid}未配置插件，已跳过')
-            continue
-        rooms[rid] = live.LiveDanmaku(rid)
-        for plugin in plugins:
-            if plugin in receivers:
-                logger.debug(f'加载插件{plugin}')
-                for receiver in receivers[plugin]:
-                    for rtype in receiver['type']:
-                        rooms[rid].add_event_handler(rtype, receiver['func'])
-            else:
-                logger.warning(f'{plugin}插件不存在，请检查')
-        tasks.append(rooms[rid].connect(return_task = True))
+        if type(room['room']) != list:
+            room['room'] = [room['room']]
+        for rid in room['room']:
+            if room.get('disable', False):
+                logger.debug(f"直播间{rid}被禁用，已跳过")
+                break
+            logger.info(f'开启直播间{rid}')
+            plugins = room.get('plugins', [])
+            if not plugins:
+                logger.warning(f'直播间{rid}未配置插件，已跳过')
+                continue
+            rooms[rid] = live.LiveDanmaku(rid)
+            for plugin in plugins:
+                if plugin in receivers:
+                    logger.debug(f'加载插件{plugin}')
+                    for receiver in receivers[plugin]:
+                        for rtype in receiver['type']:
+                            rooms[rid].add_event_handler(rtype, receiver['func'])
+                else:
+                    logger.warning(f'{plugin}插件不存在，请检查')
+            tasks.append(rooms[rid].connect(return_task = True))
+    if len(tasks) == 0:
+        logger.warning("未配置有效直播间，停止运行直播模块")
+        return
     await asyncio.gather(checkConnect(), *tasks)
 
 def load_plugins():
@@ -51,9 +56,15 @@ def load_plugins():
         if plugin.is_dir() \
                 and not plugin.name.startswith('_') \
                 and plugin.joinpath('__init__.py').exists():
-            importlib.import_module(f'modules.live.{plugin.name}')
+            try:
+                importlib.import_module(f'modules.live.{plugin.name}')
+            except exceptions.PluginExit:
+                logger.debug(f'模块{plugin.name}导入时停止，已跳过')
         elif not plugin.name.startswith('_') and plugin.suffix == '.py':
-            importlib.import_module(f'modules.live.{plugin.name[:-3]}')
+            try:
+                importlib.import_module(f'modules.live.{plugin.name[:-3]}')
+            except exceptions.PluginExit:
+                logger.debug(f'模块{plugin.name}导入时停止，已跳过')
     
     if not receivers:
         logger.warning('live目录下不存在可用插件')

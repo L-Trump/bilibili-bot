@@ -12,6 +12,7 @@ async def on_all(msg):
         'DANMU_MSG', 
         'COMBO_SEND',
         'ROOM_BANNER', 
+        'SEND_GIFT',
         'WELCOME', 
         'INTERACT_WORD', 
         'VIEW', 
