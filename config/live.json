@@ -5,19 +5,30 @@
     "rooms":[
         {
             "room": 21672023,
-            "disable": false,
+            "description": "Miki",
+            "disable": true,
             "plugins": [
                 "gift",
                 "debug"
             ]
         },
         {
+            "disable": true,
             "room": 22111450,
+            "description": "萨麦尔Samael",
             "plugins": ["gift"]
         },
         {
             "room": 21564812,
+            "disable": true,
+            "description": "disailab二号机",
             "plugins": ["reply"]
+        },
+        {
+            "room": [21403609,21452505,21696950,732],
+            "disable": false,
+            "description": "rukie和nanami",
+            "plugins": ["reply", "debug"]
         }
     ]
 }

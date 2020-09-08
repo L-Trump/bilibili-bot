@@ -17,7 +17,7 @@ def newLogger(loggerName: str, debug: bool = False, file: bool = True):
         log_path = getRunningPath(False).joinpath('logs', loggerName)
         checkPath(log_path)
         logfile = log_path / f"{rq}.log"
-        mode = 'a+' if logfile.exists else 'w+'
+        mode = 'a+' if logfile.exists() else 'w+'
         FileHandler = logging.FileHandler(str(logfile), mode=mode, encoding="utf-8")
         FileHandler.setFormatter(formatter)
         logger.addHandler(FileHandler)
@@ -56,7 +56,7 @@ def loadConfig(cfgPath = str(getRunningPath(False) / 'config' / 'bot.json'), log
     cfgPath = str(cfgPath)
     path = Path(cfgPath)
     checkPath(path.parent)
-    if path.exists:
+    if path.exists():
         with open(path, 'r', encoding='utf-8') as f:
             config = json.load(f)
         logger.debug('配置加载成功')
@@ -93,7 +93,7 @@ def getVerify(logger = getLogger('bot')):
 def loginBilibili(logger = getLogger('bot')):
     config = loadConfig(logger=logger)
     logger.info('账号登录中...')
-    importlib.import_module('utils.bililogin')
+    bililogin = importlib.import_module('utils.bililogin')
     verify = bililogin.login_QR()
     config['account'] = {}
     config['account']['sessdata'] = verify.sessdata
