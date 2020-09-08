@@ -30,7 +30,7 @@
 
 配置文件位置：/config/live_reply.json
 
-配置说明：[docs/live_reply.md](/live_reply.md)
+配置说明：[docs/live_reply.md](/docs/live_reply.md)
 
 ## 范例
 
