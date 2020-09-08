@@ -19,6 +19,14 @@
 
 ## To Be Continue
 
+# 使用说明
+
+- [模块](/docs/modules.md)
+  - [直播模块](/docs/live.md)
+    - [自动回复](/docs/live_reply.md)
+    - 自动谢礼物
+
+
 # 引用的项目
 
 - [bilibili_api](https://github.com/Passkou/bilibili_api)
