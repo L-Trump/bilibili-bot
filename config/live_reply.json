@@ -1,6 +1,6 @@
 {
     "reply_interval": 2,
-    "disable" :true,
+    "disable": false,
     "global": {
         "description": "全局配置",
         "rules": [
@@ -8,21 +8,29 @@
                 "description": "此条目为示例，请勿改动！（当然删除其实没关系）",
                 "?description": "下面以?开头的条目为词条介绍",
                 "?description": "注：所以条目均同时满足时此规则才生效，如需采用或的关系，请建立多个规则条目",
+
                 "disable": true,
                 "?disable": "是否开启此条目，默认false",
+
                 "interval": 5,
                 "?interval": "本条规则的回复间隔，默认5s（仅当前直播间）",
                 "?interval": "即回复后多长时间内将不再使用该条规则",
+
                 "regex": "",
                 "?regex": "匹配正则表达式（支持匹配小组），注意JSON和正则存在双重转义",
+
                 "contain": "",
                 "?contain": "包含文本",
+
                 "equal": "",
                 "?equal": "与文本完全一致",
+
                 "startwith": "",
                 "?startwith": "文本以xxx开头",
+
                 "endwith": "",
                 "?endwith": "文本以xxx结尾",
+
                 "reply": "",
                 "?reply": "自动回复的消息，支持{}格式，例如：",
                 "?reply": "发送者用户名{uname} UID{uid} 原消息{text} 正则匹配组{regex[0]}{regex[1]}....",

@@ -1,6 +1,6 @@
-## 直播间配置
+# 直播间配置
 
-配置文件位置：`/机器人目录/config/live.json`
+配置文件位置：`/config/live.json`
 
 ## 配置
 
@@ -9,7 +9,7 @@
 - reconnect_times：直播间断连后尝试重连次数，默认：3
 - rooms: 列表，房间配置，见下
   - disable：直播间禁用，默认：false
-  - room：房间号
+  - room：房间号（允许列表格式多房间号）
   - plugins: 开启的插件列表，目前支持的插件
 
 ## 已支持插件
@@ -18,9 +18,17 @@
 
 插件代号：gift
 
+插件位置：/modules/live/gift
+
+配置文件位置：/config/live_reply.json
+
 ### 关键词自动回复
 
 插件代号：reply
+
+插件位置：/modules/live/reply
+
+配置文件位置：/config/live_reply.json
 
 ## 范例
 
@@ -37,7 +45,7 @@
         },
         {
             "disable": false,
-            "room": 273,
+            "room": [21403609, 21452505, 21696950, 732],
             "plugins": ["gift", "reply"]
         }
     ]
