@@ -42,3 +42,38 @@
   - {medal\['anchor_uname'\]}: 勋章所属主播名
   - {medal\['anchor_uid'\]}: 勋章所属主播UID
   - {medal\['anchor_roomid'\]}: 勋章所属主播房间号
+  
+## 配置范例
+  
+```json
+{
+    "reply_interval": 2,
+    "disable": false,
+    "global": {
+        "description": "全局配置",
+        "rules": [
+            {
+                "interval": 10,
+                "equal": "草",
+                "reply": "草"
+            }
+        ]
+    },
+    "21403609": {
+        "description": "Ruki的直播间",
+        "rules": [
+            {
+                "disable": true,
+                "description": "复读",
+                "regex": "([\\S\\s]*)",
+                "reply": "{regex[0]}"
+            },
+            {
+                "description": "打Call",
+                "regex": "((\\\\[\\S]+?/)+)[\\S\\s]*",
+                "reply": "{regex[0]}"
+            }
+        ]
+    }
+}
+```
